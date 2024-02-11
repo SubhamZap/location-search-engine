@@ -50,3 +50,6 @@ Thumbs.db
 
 # VirtualEnv file
 location_env/
+
+#git files
+.gitattributes

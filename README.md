@@ -16,3 +16,13 @@ streamlit run app.py
 ```
 
 **STEP-4:** A web-ui will open, here you can search for location.
+
+## Steps for analysing the EDA
+**STEP-1**: Unzip the dataset.
+```
+unzip IN.zip
+unzip IN_pincodes.zip
+```
+
+**STEP-2**: 
+All the exploration are done in `EDA.ipynb` and for model training check `model_training.ipynb`.

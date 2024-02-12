@@ -4,7 +4,7 @@
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
 # OS
-.__pycache__/
+__pycache__/
 .ipynb_checkpoints/
 
 # Compiled Java class files
@@ -53,3 +53,4 @@ location_env/
 
 #git files
 .gitattributes
+.dockerignore

@@ -17,6 +17,11 @@ streamlit run app.py
 
 **STEP-4:** A web-ui will open, here you can search for location.
 
+## Steps for accessing the web UI without cloning repo
+**STEP-1**: Go to this link: `https://location-search-engine-dhxrzzifnrzciz3vr7cfty.streamlit.app/`
+
+**STEP-2**: A web-ui will open, here you can search for location.
+
 ## Steps for analysing the EDA
 **STEP-1**: Unzip the dataset.
 ```
@@ -26,3 +31,12 @@ unzip IN_pincodes.zip
 
 **STEP-2**: 
 All the exploration are done in `EDA.ipynb` and for model training check `model_training.ipynb`.
+
+## Use below cURL to access the API
+```
+curl --location 'https://lf30gcxasa.execute-api.ap-south-1.amazonaws.com/location-search-engine-function' \
+--header 'Content-Type: application/json' \
+--data '{
+  "input_text": "west b"
+}'
+```

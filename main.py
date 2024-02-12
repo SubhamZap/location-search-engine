@@ -1,4 +1,4 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
+import scipy
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import load_npz
 import pandas as pd
@@ -33,24 +33,21 @@ try:
     index_mapping_filename = 'index_mapping.pkl'
     tfidf_vectorizer_filename = 'tfidf_vectorizer.pkl'
 
-    # s3.Bucket(bucket_name).download_file(tfidf_matrix_filename, tfidf_matrix_filename)
-    # s3.Bucket(bucket_name).download_file(index_mapping_filename, index_mapping_filename)
-    # s3.Bucket(bucket_name).download_file(tfidf_vectorizer_filename, tfidf_vectorizer_filename)
-
     # Load precomputed vectors and metadata
     tfidf_matrix_body = load_data_from_s3(bucket_name, tfidf_matrix_filename)
     if tfidf_matrix_body is not None:
         try:
             with BytesIO(tfidf_matrix_body) as bio_tfidf:
-                npzfile = np.load(BytesIO(tfidf_matrix_body), allow_pickle=True)
-                tfidf_matrix = npzfile['data']
-            print("TF-IDF matrix loaded successfully.")
+                npzfile = np.load(bio_tfidf, allow_pickle=True)
+                indices = npzfile['indices']
+                indptr = npzfile['indptr']
+                data = npzfile['data']
+                shape = npzfile['shape']
+                tfidf_matrix = scipy.sparse.csr_matrix((data, indices, indptr), shape=shape)
+                print("TF-IDF matrix loaded successfully.")
+                print("Shape:", tfidf_matrix.shape)
         except Exception as e:
             print(f"Error loading TF-IDF matrix: {e}")
-
-    # body = s3.get_object(Bucket=bucket_name, Key=tfidf_matrix_filename)['Body'].read()
-    # npzfile = np.load(BytesIO(body))
-    # tfidf_matrix = npzfile['data']
 
     index_mapping_body = load_data_from_s3(bucket_name, index_mapping_filename)
     if index_mapping_body is not None:
@@ -71,26 +68,17 @@ try:
         except Exception as e:
             print(f"Error loading tfidf vectorizer: {e}")
 
-    # index_mapping = pickle.loads(s3.get_object(Bucket=bucket_name, Key=index_mapping_filename)['Body'].read())
-
-    # tfidf_vectorizer = joblib.load(s3.get_object(Bucket=bucket_name, Key=tfidf_vectorizer_filename)['Body'].read())
-
-    # with open(index_mapping_filename, 'rb') as file:
-    #     index_mapping = pd.read_pickle(file)
-
-    # with open(tfidf_vectorizer_filename, 'rb') as file:
-    #     tfidf_vectorizer = joblib.load(tfidf_vectorizer_filename)
-
 except Exception as e:
     print(f"Error fetching S3 object. Error: {e}")
 
 # Query and Retrieve
 def search_location(input_text, top_n=5):
     result = []
-
+    print('input_text: ', input_text)
     # Vectorize the input text
     input_vector = tfidf_vectorizer.transform([input_text])
     print(input_vector.shape)
+    print(tfidf_matrix.shape)
     # Compute cosine similarity between input text vector and precomputed vectors
     similarity_scores = cosine_similarity(input_vector, tfidf_matrix).flatten()
 

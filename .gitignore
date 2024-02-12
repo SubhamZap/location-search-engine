@@ -53,3 +53,6 @@ location_env/
 
 #git files
 .gitattributes
+
+#docker files
+.dockerignore

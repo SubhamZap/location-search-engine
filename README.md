@@ -31,3 +31,12 @@ unzip IN_pincodes.zip
 
 **STEP-2**: 
 All the exploration are done in `EDA.ipynb` and for model training check `model_training.ipynb`.
+
+## Use below cURL to access the API
+```
+curl --location 'https://lf30gcxasa.execute-api.ap-south-1.amazonaws.com/location-search-engine-function' \
+--header 'Content-Type: application/json' \
+--data '{
+  "input_text": "west b"
+}'
+```

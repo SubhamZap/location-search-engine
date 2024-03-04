@@ -108,7 +108,7 @@ def handler(event, context):
         result = search_location(input_text=input_text)
         return {
             'statusCode': 200,
-            'body': json.dumps({'similarity score': result})
+            'body': json.dumps({'result': result})
         }
     except Exception as e:
         return {

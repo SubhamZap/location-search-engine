@@ -26,8 +26,18 @@ st.markdown(change_event_script, unsafe_allow_html=True)
 @st.cache_data
 def search_and_display_results(text):
     if text:
+<<<<<<< Updated upstream
         results = search_location(text)
         for result in results:
             st.write(result['entity_name'])
+=======
+        try:
+            if submit_button:
+                results = search_location(text, 15)
+                for result in results:
+                    st.write(result['entity_name'])
+        except:
+            st.error('No location found.')
+>>>>>>> Stashed changes
 
 search_and_display_results(text_search)

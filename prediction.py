@@ -12,7 +12,7 @@ def load_sparse_csr(filename):
     return load_npz(filename)
 
 # Query and Retrieve
-def search_location(input_text, top_n=5):
+def search_location(input_text, top_n=15):
     # Load precomputed vectors and metadata
     tfidf_matrix = load_sparse_csr(tfidf_matrix_filename)
     index_mapping = pd.read_pickle(index_mapping_filename)

@@ -10,6 +10,7 @@ with st.form(key='searchform'):
     text_search = st.text_input("Enter location", value="", key=search_key)
     submit_button = st.form_submit_button(label='Search')
 
+
 @st.cache_data(ttl=10, show_spinner=False)
 def search_and_display_results(text):
     if text:
